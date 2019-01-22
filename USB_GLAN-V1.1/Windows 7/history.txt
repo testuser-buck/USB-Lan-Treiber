@@ -1,0 +1,29 @@
+//======================================================================
+// ASIX AX88179/AX88178A Windows 7 Drivers Setup Program
+// Revision History
+//
+// This document describes the major changes, additions and bug fixes made 
+// to the program between released versions. 
+//======================================================================
+
+
+Version 2.0.0.0 (2012-08-28)
+1. This setup program includes the following AX88179/AX88178A Windows 7 32-bit/64-bit drivers.
+   AX88179/AX88178A Windows 7 32-bit WHQL driver v1.12.6.0
+   AX88179/AX88178A Windows 7 64-bit WHQL driver v1.14.6.0
+2. Added to support AX88178A.
+
+
+Version 1.0.0.0 (2012-05-11)
+1. This setup program includes the following AX88179 Windows 7 32-bit/64-bit drivers.
+   AX88179 Windows 7 32-bit WHQL driver v1.12.5.0
+   AX88179 Windows 7 64-bit WHQL driver v1.14.5.0
+2. Built the setup program by using InstallShield2010 Premier from this verison.
+
+
+Note:
+=====
+Before run the setup program to install newer driver, please uninstall the older version 
+driver setup program that user installed before. User can check the list in "Control Panel" 
+-> "Programs" -> "Programs and Features". If there is a AX88179/AX88178A driver in the list, 
+uninstall it before run the setup program.

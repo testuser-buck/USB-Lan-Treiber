@@ -1,0 +1,27 @@
+[InstallShield Silent]
+Version=v7.00
+File=Response File
+[File Transfer]
+OverwrittenReadOnly=NoToAll
+[{D2B61BE0-B18B-4091-81B4-F234F4C30DFD}-DlgOrder]
+Dlg0={D2B61BE0-B18B-4091-81B4-F234F4C30DFD}-SdWelcomeMaint-0
+Count=5
+Dlg1={D2B61BE0-B18B-4091-81B4-F234F4C30DFD}-SdFinish-0
+Dlg2={D2B61BE0-B18B-4091-81B4-F234F4C30DFD}-SdWelcome-0
+Dlg3={D2B61BE0-B18B-4091-81B4-F234F4C30DFD}-SdStartCopy2-0
+Dlg4={D2B61BE0-B18B-4091-81B4-F234F4C30DFD}-SdFinish-0
+[{D2B61BE0-B18B-4091-81B4-F234F4C30DFD}-SdWelcomeMaint-0]
+Result=302
+[{D2B61BE0-B18B-4091-81B4-F234F4C30DFD}-SdWelcome-0]
+Result=1
+[{D2B61BE0-B18B-4091-81B4-F234F4C30DFD}-SdStartCopy2-0]
+Result=1
+[Application]
+Name=Realtek USB Ethernet Controller Driver
+Version=1.00.0000
+Company=Realtek
+Lang=0009
+[{D2B61BE0-B18B-4091-81B4-F234F4C30DFD}-SdFinish-0]
+Result=1
+bOpt1=0
+bOpt2=0

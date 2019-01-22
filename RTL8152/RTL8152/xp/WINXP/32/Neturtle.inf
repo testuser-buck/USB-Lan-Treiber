@@ -1,0 +1,270 @@
+; ** COPYRIGHT (C) 2007-2013 Realtek CORPORATION
+;
+
+[Version]
+Signature    = "$Windows NT$"
+Compatible   = 1
+Class        = Net
+ClassGUID    = {4d36e972-e325-11ce-bfc1-08002be10318}
+Provider     = %Realtek%
+CatalogFile  = neturtle.cat     ;; for WHQL certified
+DriverVer    = 03/05/2013,5.5.0305.2013
+
+[Manufacturer]
+%Realtek%    = Realtek, NTx86.5.1, NTamd64
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+
+; DisplayName            Section            DeviceID
+; -----------            -------            --------
+
+[Realtek.NTx86.5.1]; This section will only be installed by Windows XP
+%RTL8152B.DeviceDesc% = RTL8152Bx.ndi,USB\VID_0BDA&PID_8152&REV_2000
+
+[Realtek.NTamd64]; This section will only be installed by Windows XP 64-bit
+%RTL8152B.DeviceDesc% = RTL8152Ba.ndi,USB\VID_0BDA&PID_8152&REV_2000
+
+;;****************************************************************************
+;; Windows XP32
+;;****************************************************************************
+[RTL8152Bx.ndi.NT]
+AddReg = RTLUE8023xp.NT.Reg
+AddReg = NetworkAddress.reg, wolptnmagic.reg, Speed10_100.reg
+AddReg = flowctrl.reg, PriorityVlanTag.reg, OffloadChksum.reg
+AddReg = OffloadLargesend.reg, EEE.reg, WolShutdownLinkSpeed.reg
+Addreg = Common.reg
+Characteristics    =  0x84
+BusType            =  15 
+CopyFiles          =  Rtlunic.CopyFilesXP
+*IfType            =  6             ; IF_TYPE_ETHERNET_CSMACD 
+*MediaType         =  0             ; NdisMedium802_3
+*PhysicalMediaType =  14            ; NdisPhysicalMedium802_3
+
+[RTL8152Bx.ndi.NT.Services]
+AddService = RTLUE8023xp, 2, rtusntxp.Service, common.EventLog
+
+;;****************************************************************************
+;; Windows XP64
+;;****************************************************************************
+[RTL8152Ba.ndi.NT]
+AddReg = RTLUE8023x64.NT.Reg
+AddReg = NetworkAddress.reg, wolptnmagic.reg, Speed10_100.reg
+AddReg = flowctrl.reg, PriorityVlanTag.reg, OffloadChksum.reg
+AddReg = OffloadLargesend.reg, EEE.reg, WolShutdownLinkSpeed.reg
+Addreg = Common.reg
+Characteristics    =  0x84
+BusType            =  15 
+CopyFiles          =  Rtlunic.CopyFilesXP64
+*IfType            =  6             ; IF_TYPE_ETHERNET_CSMACD 
+*MediaType         =  0             ; NdisMedium802_3
+*PhysicalMediaType =  14            ; NdisPhysicalMedium802_3
+
+[RTL8152Ba.ndi.NT.Services]
+AddService = RTLUE8023x64, 2, rtusntx64.Service, common.EventLog
+
+;*******************************************************************************
+; common paramters
+;*******************************************************************************
+[NetworkAddress.reg]
+HKR,Ndi\params\NetworkAddress,     ParamDesc,  0, %NetworkAddress%
+HKR,Ndi\params\NetworkAddress,     type,       0, "edit"
+HKR,Ndi\params\NetworkAddress,     default,    0, "000000000000"
+HKR,Ndi\params\NetworkAddress,     LimitText,  0, "12"
+HKR,Ndi\params\NetworkAddress,     UpperCase,  0, "1"
+HKR,Ndi\params\NetworkAddress,     Optional,   0, "1"
+
+[wolptnmagic.reg]
+HKR, Ndi\params\WakeOnMagicPacket,        ParamDesc,  0, %WakeOnMagPkt%
+HKR, Ndi\params\WakeOnMagicPacket,        default,    0, "1"
+HKR, Ndi\params\WakeOnMagicPacket,        type,       0, "enum"
+HKR, Ndi\params\WakeOnMagicPacket\enum,   "0",        0, %Disabled%
+HKR, Ndi\params\WakeOnMagicPacket\enum,   "1",        0, %Enabled%
+
+HKR, Ndi\params\WakeOnPattern,        ParamDesc,  0, %WakeOnPtn%
+HKR, Ndi\params\WakeOnPattern,        default,    0, "1"
+HKR, Ndi\params\WakeOnPattern,        type,       0, "enum"
+HKR, Ndi\params\WakeOnPattern\enum,   "0",        0, %Disabled%
+HKR, Ndi\params\WakeOnPattern\enum,   "1",        0, %Enabled%
+
+HKR, Ndi\Params\TransmitBuffers,      ParamDesc,  0, %TransmitBuffers%
+HKR, Ndi\Params\TransmitBuffers,      Type,       0, "int"
+HKR, Ndi\Params\TransmitBuffers,      Default,    0, "16"
+HKR, Ndi\Params\TransmitBuffers,      Min,        0, "1"
+HKR, Ndi\Params\TransmitBuffers,      Max,        0, "32"
+HKR, Ndi\Params\TransmitBuffers,      Step,       0, "1"
+HKR, Ndi\Params\TransmitBuffers,      Base,       0, "10"
+
+[Speed10_100.reg]
+HKR,Ndi\params\SpeedDuplex,       ParamDesc,  0, %SpeedDuplex%
+HKR,Ndi\params\SpeedDuplex,       default,    0, "0"
+HKR,Ndi\params\SpeedDuplex,       type,       0, "enum"
+HKR,Ndi\params\SpeedDuplex\enum,  "0",        0, %AutoDetect%
+HKR,Ndi\params\SpeedDuplex\enum,  "1",        0, %10Mb-Half-Duplex%
+HKR,Ndi\params\SpeedDuplex\enum,  "2",        0, %10Mb-Full-Duplex%
+HKR,Ndi\params\SpeedDuplex\enum,  "3",        0, %100Mb-Half-Duplex%
+HKR,Ndi\params\SpeedDuplex\enum,  "4",        0, %100Mb-Full-Duplex%
+
+[flowctrl.reg]
+HKR,Ndi\params\FlowControl,       ParamDesc,     0, %FlowControl%
+HKR,Ndi\params\FlowControl,       default,       0, "1"
+HKR,Ndi\params\FlowControl,       type,          0, "enum"
+HKR,Ndi\params\FlowControl\enum,  "0",           0, %Disabled%
+HKR,Ndi\params\FlowControl\enum,  "1",           0, %Enabled%
+
+[PriorityVlanTag.reg]
+HKR,Ndi\params\PriorityVLANTag,       ParamDesc,  0, %PriorityVLAN%
+HKR,Ndi\params\PriorityVLANTag,       default,    0, "1"
+HKR,Ndi\params\PriorityVLANTag,       type,       0, "enum"
+HKR,Ndi\params\PriorityVLANTag\enum,  "0",        0, %Disabled%
+HKR,Ndi\params\PriorityVLANTag\enum,  "1",        0, %Enabled%
+
+[OffloadChksum.reg]
+HKR, Ndi\params\CksOffload,           ParamDesc,  0, %ChecksumOffload%
+HKR, Ndi\params\CksOffload,           default,    0, "3"
+HKR, Ndi\params\CksOffload,           type,       0, "enum"
+HKR, Ndi\params\CksOffload\enum,      "0",        0, %Disabled%
+HKR, Ndi\params\CksOffload\enum,      "1",        0, %TxEnabled%
+HKR, Ndi\params\CksOffload\enum,      "2",        0, %RxEnabled%
+HKR, Ndi\params\CksOffload\enum,      "3",        0, %RxTxEnabled%
+
+[OffloadLargesend.reg]
+HKR,Ndi\params\Largesend,            ParamDesc,  0, %LargesendOffload%
+HKR,Ndi\params\Largesend,            default,    0, "1"
+HKR,Ndi\params\Largesend,            type,       0, "enum"
+HKR,Ndi\params\Largesend\enum,       "0",        0, %Disabled%
+HKR,Ndi\params\Largesend\enum,       "1",        0, %Enabled%
+
+[EEE.reg]
+HKR, Ndi\params\EEE,        ParamDesc,  0, %EEE%
+HKR, Ndi\params\EEE,        type,       0, "enum"
+HKR, Ndi\params\EEE,        default,    0, "1"
+HKR, Ndi\params\EEE\enum,   "0",        0, %Disabled%
+HKR, Ndi\params\EEE\enum,   "1",        0, %Enabled%
+
+[WolShutdownLinkSpeed.reg]
+HKR,Ndi\params\WolShutdownLinkSpeed,        ParamDesc,  0, %WolShutdownLinkSpeed%
+HKR,Ndi\params\WolShutdownLinkSpeed,        default,    0, "0"
+HKR,Ndi\params\WolShutdownLinkSpeed,        type,       0, "enum"
+HKR,Ndi\params\WolShutdownLinkSpeed\enum,   "0",        0, %10MbFirst%
+HKR,Ndi\params\WolShutdownLinkSpeed\enum,   "1",        0, %100MbFirst%
+HKR,Ndi\params\WolShutdownLinkSpeed\enum,   "2",        0, %NotSpeedDown%
+
+[Common.reg]
+HKR,,HwOption,0x00010001,0
+HKR,,HwFlags,0x00010001,0
+
+[common.EventLog]
+AddReg = common.AddEventLog.reg
+
+[common.AddEventLog.reg]
+HKR, , EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\netevent.dll"
+HKR, , TypesSupported  , 0x00010001, 7
+
+
+;*******************************************************************************
+; Windows XP32
+;*******************************************************************************
+[RTLUE8023xp.NT.Reg]
+HKR, Ndi\Interfaces,    UpperRange, 0, "ndis5"
+HKR, Ndi\Interfaces,    LowerRange, 0, "ethernet"
+HKR, Ndi,               Service,    0, "RTLUE8023xp"
+
+[rtusntxp.Service]
+DisplayName    = %Rtlunicxp.Service.DispName%
+ServiceType    = 1      ; %SERVICE_KERNEL_DRIVER%
+StartType      = 3      ; %SERRVICE_DEMAND_START%
+ErrorControl   = 1      ; %SERRVICE_ERROR_NORMAL%
+ServiceBinary  = %12%\rtunicxp.sys
+LoadOrderGroup = NDIS
+
+[Rtlunic.CopyFilesXP]
+rtunicxp.sys,,,2
+
+;*******************************************************************************
+; Windows XP64
+;*******************************************************************************
+[RTLUE8023x64.NT.Reg]
+HKR, Ndi\Interfaces,    UpperRange, 0, "ndis5"
+HKR, Ndi\Interfaces,    LowerRange, 0, "ethernet"
+HKR, Ndi,               Service,    0, "RTLUE8023x64"
+
+[rtusntx64.Service]
+DisplayName    = %Rtlunicx64.Service.DispName%
+ServiceType    = 1      ; %SERVICE_KERNEL_DRIVER%
+StartType      = 3      ; %SERRVICE_DEMAND_START%
+ErrorControl   = 1      ; %SERRVICE_ERROR_NORMAL%
+ServiceBinary  = %12%\rtunic64.sys
+LoadOrderGroup = NDIS
+
+
+[Rtlunic.CopyFilesXP64]
+rtunic64.sys,,,2
+
+;*******************************************************************************
+; Destination Directory
+;*******************************************************************************
+[DestinationDirs]
+Rtlunic.CopyFilesXP     = 12
+Rtlunic.CopyFilesXP64   = 12
+DefaultDestDir          = 11    ; LDID_SYS
+
+
+[SourceDisksNames]
+1=%DISKNAME%,,,
+
+[SourceDisksFiles]
+rtunicxp.sys = 1
+rtunic64.sys = 1
+
+
+;*******************************************************************************
+; Strings
+;*******************************************************************************
+[Strings]
+Realtek                         = "Realtek"
+
+RTL8152B.DeviceDesc             = "Realtek USB FE Family Controller"
+
+;; Source disk name
+DISKNAME                        = "Realtek USB 10/100 NIC Family all in one NDIS Driver"
+
+NetworkAddress                  = "Network Address"
+
+AutoDetect                      = "Auto Negotiation"
+SpeedDuplex                     = "Speed & Duplex"
+10Mb-Half-Duplex                = "10 Mbps Half Duplex"
+10Mb-Full-Duplex                = "10 Mbps Full Duplex"
+100Mb-Half-Duplex               = "100 Mbps Half Duplex"
+100Mb-Full-Duplex               = "100 Mbps Full Duplex"
+
+WakeOnMagPkt                    = "Magic Packet Wake Up"
+WakeOnPtn                       = "Wake on pattern match"
+ReceiveBuffers                  = "Receive Buffers"
+TransmitBuffers                 = "Transmit Buffers"
+
+FlowControl                     = "Flow Control"
+PriorityVLAN                    = "Priority & VLAN"
+
+ChecksumOffload                 = "Checksum Offload"
+LargesendOffload                = "Large Send Offload"
+
+;;NT service name
+Rtlunicxp.Service.DispName      = "Realtek 10/100 USB NIC Family NDIS XP Driver"
+Rtlunicx64.Service.DispName     = "Realtek 10/100 USB NIC Family NDIS XP(x64) Driver"
+
+EEE                             = "Energy Efficient Ethernet"
+
+WolShutdownLinkSpeed            = "WOL & Shutdown Link Speed"
+
+Enabled                         = "Enabled"
+Disabled                        = "Disabled"
+TxEnabled                       = "Tx Enabled"
+RxEnabled                       = "Rx Enabled"
+RxTxEnabled                     = "Rx & Tx Enabled"
+10MbFirst                       = "10 Mbps First"
+100MbFirst                      = "100 Mbps First"
+NotSpeedDown                    = "Not Speed Down"
+
+;;;;; InfVer = 1.000

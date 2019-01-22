@@ -1,0 +1,22 @@
+//======================================================================
+// ASIX AX88179/AX88178A Windows 8 Drivers Setup Program
+// Revision History
+//
+// This document describes the major changes, additions and bug fixes made 
+// to the program between released versions. 
+//======================================================================
+
+
+Version 1.0.0.0 (2012-08-20)
+1. This setup program includes the following AX88179/AX88178A Windows 8 32-bit/64-bit drivers.
+   AX88179/AX88178A Windows 8 32-bit WHQL driver v1.16.4.0
+   AX88179/AX88178A Windows 8 64-bit WHQL driver v1.16.4.0
+2. Built the setup program by using InstallShield2010 Premier.
+
+
+Note:
+=====
+Before run the setup program to install newer driver, please uninstall the older driver
+that user installed before. User can check the list in "Control Panel" -> "Programs" ->
+"Programs and Features". If there is a AX88179/AX88178A driver in the list, uninstall it
+before run the setup program.
